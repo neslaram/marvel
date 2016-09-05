@@ -16,6 +16,8 @@ public class Character {
     private int id;
     @SerializedName("name")
     private String name;
+    @SerializedName("description")
+    private String description;
     @SerializedName("modified")
     private String modified;
     @SerializedName("thumbnail")
@@ -38,5 +40,33 @@ public class Character {
 
     public String getThumbnail() {
         return thumbnail.getFullPath();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getModified() {
+        return modified;
+    }
+
+    public ComicResponse getComics() {
+        return comics;
+    }
+
+    public SerieResponse getSeries() {
+        return series;
+    }
+
+    public StorieResponse getStories() {
+        return stories;
+    }
+
+    public EventResponse getEvents() {
+        return events;
     }
 }

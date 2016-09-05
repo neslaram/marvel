@@ -1,5 +1,6 @@
 package com.example.neslaram.marvel.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,8 +14,10 @@ import com.example.neslaram.marvel.R;
 import com.example.neslaram.marvel.data.model.Character;
 import com.example.neslaram.marvel.presenter.main.MainPresenter;
 import com.example.neslaram.marvel.presenter.main.impl.MainPresenterImpl;
+import com.example.neslaram.marvel.ui.detail.DetailActivity;
 import com.example.neslaram.marvel.ui.main.adapters.CharacterAdapter;
 import com.example.neslaram.marvel.ui.main.adapters.OnItemClickListener;
+import com.example.neslaram.marvel.utils.Contants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +55,9 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mainPresenter.onDestroy();
         isLoading = false;
+        super.onDestroy();
     }
 
     @Override
@@ -84,7 +87,11 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
 
     @Override
     public void onItemClicked(int position, Character item) {
-
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(Contants.KEY_CHARACTER_ID, item.getId());
+        intent.putExtra(Contants.KEY_CHARACTER_NAME, item.getName());
+        intent.putExtra(Contants.KEY_CHARACTER_IMG, item.getThumbnail());
+        startActivity(intent);
     }
 
     private void setRecyclerView() {
