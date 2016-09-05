@@ -8,7 +8,7 @@ import java.util.List;
  * Created by neslaram on 04/09/16.
  */
 public interface MainView {
-    void setItems(List<Character> items);
+    void setItems(List<Character> items, int total);
     void showProgressBar();
     void hideProgressBar();
     void showErrorMessage(String error);
