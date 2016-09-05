@@ -66,9 +66,9 @@ public class MainPresenterImpl implements MainPresenter {
 
     private void getCharacterSuccess(CharacterResponse response) {
         if (mainView != null) {
-            List<Character> results = response.getData().getResults();
-            int size = results.size();
-            mainView.setItems(results);
+            CharacterResponse.Data data = response.getData();
+            List<Character> results = data.getResults();
+            mainView.setItems(results, data.getTotal());
             mainView.hideProgressBar();
         }
     }

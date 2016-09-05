@@ -58,8 +58,9 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
     }
 
     @Override
-    public void setItems(List<Character> items) {
+    public void setItems(List<Character> items, int total) {
         isLoading = false;
+        this.total = total;
         adapter.addItems(items);
     }
 
@@ -101,11 +102,10 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
                         int totalItemCount = layoutManager.getItemCount();
                         int pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
                         if (pastVisiblesItems + visibleItemCount >= totalItemCount) {
-                            if (!isLoading) {
+                            if (!isLoading && total != totalItemCount) {
                                 isLoading = true;
-                                mainPresenter.getCharacters(adapter.getItemCount());
+                                mainPresenter.getCharacters(totalItemCount);
                             }
-
                         }
                         break;
                 }
