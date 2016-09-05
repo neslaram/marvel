@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface MainView {
     void setItems(List<Character> items);
+    void showProgressBar();
+    void hideProgressBar();
     void showErrorMessage(String error);
 
 }

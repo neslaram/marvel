@@ -1,6 +1,7 @@
 package com.example.neslaram.marvel.ui.main.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +31,6 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
     public CharacterAdapter(List<Character> characters, OnItemClickListener<Character> itemClickListener) {
         this.characters = characters;
         this.mItemClickListener = itemClickListener;
-
-
     }
 
     @Override
@@ -53,9 +52,10 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
         return characters.size();
     }
 
-    public void addItems(List<Character> artists) {
-        this.characters = artists;
-        notifyDataSetChanged();
+    public void addItems(List<Character> characters) {
+        int size = this.characters.size();
+        this.characters.addAll(characters);
+        notifyItemRangeInserted(size, this.characters.size());
     }
 
 
@@ -64,18 +64,20 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
         @Bind(R.id.imgAvatar)
         ImageView imgCover;
         @Bind(R.id.txtName)
-        TextView txtArtistname;
+        TextView txtName;
 
         private Character character;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            ((CardView) itemView).setPreventCornerOverlap(false);
+
             itemView.setOnClickListener(this);
         }
 
         public void bindViewHolder() {
-            txtArtistname.setText(character.getName());
+            txtName.setText(character.getName());
             imgCover.setImageResource(R.mipmap.ic_launcher);
             imgCover.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
@@ -83,7 +85,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.View
             if (!imgPath.isEmpty()) {
                 Glide.with(imgCover.getContext())
                         .load(imgPath)
-                        .asBitmap()
+                        .crossFade()
                         .centerCrop()
                         .into(imgCover);
             }

@@ -10,6 +10,6 @@ public interface MainPresenter {
 
     void onDestroy();
 
-    void getCharacters(String page);
+    void getCharacters(int offset);
 
 }

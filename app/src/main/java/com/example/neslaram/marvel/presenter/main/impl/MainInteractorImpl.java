@@ -20,7 +20,7 @@ public class MainInteractorImpl implements MainInteractor {
     }
 
     @Override
-    public Observable<CharacterResponse> getCharacters(String page) {
-        return mainRepository.getCharacters(page);
+    public Observable<CharacterResponse> getCharacters(int offset) {
+        return mainRepository.getCharacters(offset);
     }
 }

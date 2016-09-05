@@ -8,5 +8,5 @@ import rx.Observable;
  * Created by desarrollo on 7/6/16.
  */
 public interface MainInteractor {
-    Observable<CharacterResponse> getCharacters(String page);
+    Observable<CharacterResponse> getCharacters(int offset);
 }

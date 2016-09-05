@@ -19,8 +19,8 @@ public class MainRepositoryImpl implements MainRepository {
     }
 
     @Override
-    public Observable<CharacterResponse> getCharacters(String artist) {
-        return apiService.getCharacters()
+    public Observable<CharacterResponse> getCharacters(int offset) {
+        return apiService.getCharacters(offset)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io());

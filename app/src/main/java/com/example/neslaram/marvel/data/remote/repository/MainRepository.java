@@ -8,5 +8,5 @@ import rx.Observable;
  * Created by neslaram on 04/09/16.
  */
 public interface MainRepository {
-    Observable<CharacterResponse> getCharacters(String artist);
+    Observable<CharacterResponse> getCharacters(int offset);
 }

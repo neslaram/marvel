@@ -37,8 +37,9 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
     @Override
-    public void getCharacters(String page) {
-        Subscription subscription = mainInteractor.getCharacters(page).subscribe(new Observer<CharacterResponse>() {
+    public void getCharacters(int offset) {
+        mainView.showProgressBar();
+        Subscription subscription = mainInteractor.getCharacters(offset).subscribe(new Observer<CharacterResponse>() {
             @Override
             public void onCompleted() {
 
@@ -68,12 +69,14 @@ public class MainPresenterImpl implements MainPresenter {
             List<Character> results = response.getData().getResults();
             int size = results.size();
             mainView.setItems(results);
+            mainView.hideProgressBar();
         }
     }
 
     private void getCharacterError(String error) {
         if (mainView != null) {
             mainView.showErrorMessage(error);
+            mainView.hideProgressBar();
         }
     }
 
