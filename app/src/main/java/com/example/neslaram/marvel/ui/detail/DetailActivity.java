@@ -55,6 +55,7 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
         setToolbar(name, imgPath);
 
         detailPresenter = new DetailPresenterImpl(this);
+        detailPresenter.onCreate();
         if (id > 0) {
             if (Utils.isConnected(this)) {
                 detailPresenter.getCharacter(id);

@@ -6,6 +6,7 @@ package com.example.neslaram.marvel.presenter.detail;
  */
 public interface DetailPresenter {
 
+    void onCreate();
     void onDestroy();
 
     void getCharacter(int id);

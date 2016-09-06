@@ -23,6 +23,7 @@ public class MainPresenterImpl implements MainPresenter {
     private MainView mainView;
     private MainInteractor mainInteractor;
     private CompositeSubscription mSubscriptions;
+    private Realm realm;
 
     public MainPresenterImpl(MainView mainView) {
         this.mainView = mainView;
@@ -31,9 +32,15 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
     @Override
+    public void onCreate() {
+        realm= Realm.getDefaultInstance();
+    }
+
+    @Override
     public void onDestroy() {
         this.mainView = null;
         mSubscriptions.clear();
+        realm.close();
     }
 
     @Override
@@ -98,7 +105,6 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
     public void copyToRealmOrUpdate(List<Character> objects) {
-        Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(objects);
         realm.commitTransaction();

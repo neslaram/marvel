@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
         setToolbar();
         setRecyclerView();
         mainPresenter = new MainPresenterImpl(this);
+        mainPresenter.onCreate();
         if (Utils.isConnected(this)) {
             mainPresenter.getCharacters(adapter.getItemCount());
         } else {

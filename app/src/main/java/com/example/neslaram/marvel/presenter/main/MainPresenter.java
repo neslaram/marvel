@@ -6,6 +6,7 @@ package com.example.neslaram.marvel.presenter.main;
  */
 public interface MainPresenter {
 
+    void onCreate();
     void onDestroy();
 
     void getCharacters(int offset);

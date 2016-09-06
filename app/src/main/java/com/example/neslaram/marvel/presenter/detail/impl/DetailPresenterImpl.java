@@ -23,6 +23,7 @@ public class DetailPresenterImpl implements DetailPresenter {
     private DetailView detailView;
     private DetailInteractor detailInteractor;
     private CompositeSubscription mSubscriptions;
+    private Realm realm;
 
     public DetailPresenterImpl(DetailView detailView) {
         this.detailView = detailView;
@@ -32,9 +33,15 @@ public class DetailPresenterImpl implements DetailPresenter {
     }
 
     @Override
+    public void onCreate() {
+        realm = Realm.getDefaultInstance();
+    }
+
+    @Override
     public void onDestroy() {
         this.detailView = null;
         mSubscriptions.clear();
+        realm.close();
     }
 
     @Override
@@ -92,7 +99,6 @@ public class DetailPresenterImpl implements DetailPresenter {
     }
 
     public void copyToRealmOrUpdate(Character object) {
-        Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(object);
         realm.commitTransaction();
