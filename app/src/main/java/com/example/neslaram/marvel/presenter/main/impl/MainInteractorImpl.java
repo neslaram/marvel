@@ -1,9 +1,14 @@
 package com.example.neslaram.marvel.presenter.main.impl;
 
+import com.example.neslaram.marvel.data.local.repository.MainLocalRepository;
+import com.example.neslaram.marvel.data.local.repository.MainLocalRepositoryImpl;
+import com.example.neslaram.marvel.data.model.Character;
 import com.example.neslaram.marvel.data.model.responses.CharacterResponse;
 import com.example.neslaram.marvel.data.remote.repository.MainRepository;
 import com.example.neslaram.marvel.data.remote.repository.MainRepositoryImpl;
 import com.example.neslaram.marvel.presenter.main.MainInteractor;
+
+import java.util.List;
 
 import rx.Observable;
 
@@ -12,15 +17,22 @@ import rx.Observable;
  */
 public class MainInteractorImpl implements MainInteractor {
 
-    private MainRepository mainRepository;
+    private MainRepository remoteRepository;
+    private MainLocalRepository localRepository;
 
 
     public MainInteractorImpl() {
-        this.mainRepository = new MainRepositoryImpl();
+        this.remoteRepository = new MainRepositoryImpl();
+        this.localRepository = new MainLocalRepositoryImpl();
     }
 
     @Override
     public Observable<CharacterResponse> getCharacters(int offset) {
-        return mainRepository.getCharacters(offset);
+        return remoteRepository.getCharacters(offset);
+    }
+
+    @Override
+    public List<Character> getLocalCharacters(int offset) {
+        return localRepository.getCharacters(offset);
     }
 }

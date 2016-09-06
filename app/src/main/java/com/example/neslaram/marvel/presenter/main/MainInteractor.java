@@ -1,6 +1,9 @@
 package com.example.neslaram.marvel.presenter.main;
 
+import com.example.neslaram.marvel.data.model.Character;
 import com.example.neslaram.marvel.data.model.responses.CharacterResponse;
+
+import java.util.List;
 
 import rx.Observable;
 
@@ -9,4 +12,5 @@ import rx.Observable;
  */
 public interface MainInteractor {
     Observable<CharacterResponse> getCharacters(int offset);
+    List<Character> getLocalCharacters(int offset);
 }

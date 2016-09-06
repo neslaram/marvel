@@ -8,6 +8,7 @@ import com.example.neslaram.marvel.ui.main.MainView;
 
 import java.util.List;
 
+import io.realm.Realm;
 import rx.Observer;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -27,7 +28,6 @@ public class MainPresenterImpl implements MainPresenter {
         this.mainView = mainView;
         this.mainInteractor = new MainInteractorImpl();
         this.mSubscriptions = new CompositeSubscription();
-
     }
 
     @Override
@@ -59,6 +59,13 @@ public class MainPresenterImpl implements MainPresenter {
         addSubscription(subscription);
     }
 
+    @Override
+    public void getLocalCharacters(int offset) {
+        mainView.showProgressBar();
+        List<Character> results = mainInteractor.getLocalCharacters(offset);
+        getLocalCharacterSuccess(results);
+    }
+
     private void addSubscription(Subscription subscription) {
         mSubscriptions.add(subscription);
     }
@@ -68,6 +75,9 @@ public class MainPresenterImpl implements MainPresenter {
         if (mainView != null) {
             CharacterResponse.Data data = response.getData();
             List<Character> results = data.getResults();
+
+            copyToRealmOrUpdate(results);
+
             mainView.setItems(results, data.getTotal());
             mainView.hideProgressBar();
         }
@@ -79,5 +89,20 @@ public class MainPresenterImpl implements MainPresenter {
             mainView.hideProgressBar();
         }
     }
+
+    private void getLocalCharacterSuccess(List<Character> results) {
+        if (mainView != null) {
+            mainView.setItems(results, 1000);
+            mainView.hideProgressBar();
+        }
+    }
+
+    public void copyToRealmOrUpdate(List<Character> objects) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(objects);
+        realm.commitTransaction();
+    }
+
 
 }

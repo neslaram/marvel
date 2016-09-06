@@ -9,5 +9,6 @@ public interface DetailPresenter {
     void onDestroy();
 
     void getCharacter(int id);
+    void getLocalCharacter(int id);
 
 }

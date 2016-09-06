@@ -7,4 +7,6 @@ public class Contants {
     public static final String KEY_CHARACTER_ID = "kCharacterId";
     public static final String KEY_CHARACTER_NAME = "kCharacterName";
     public static final String KEY_CHARACTER_IMG = "kCharacterImg";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_ID = "id";
 }

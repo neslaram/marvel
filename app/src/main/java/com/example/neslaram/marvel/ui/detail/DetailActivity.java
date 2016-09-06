@@ -17,6 +17,7 @@ import com.example.neslaram.marvel.data.model.Character;
 import com.example.neslaram.marvel.presenter.detail.DetailPresenter;
 import com.example.neslaram.marvel.presenter.detail.impl.DetailPresenterImpl;
 import com.example.neslaram.marvel.utils.Contants;
+import com.example.neslaram.marvel.utils.Utils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,9 +56,12 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
 
         detailPresenter = new DetailPresenterImpl(this);
         if (id > 0) {
-            detailPresenter.getCharacter(id);
+            if (Utils.isConnected(this)) {
+                detailPresenter.getCharacter(id);
+            } else {
+                detailPresenter.getLocalCharacter(id);
+            }
         }
-
 
     }
 
