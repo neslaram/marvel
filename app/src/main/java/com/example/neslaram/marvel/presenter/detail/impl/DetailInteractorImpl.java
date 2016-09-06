@@ -1,5 +1,8 @@
 package com.example.neslaram.marvel.presenter.detail.impl;
 
+import com.example.neslaram.marvel.data.local.repository.DetailLocalRepository;
+import com.example.neslaram.marvel.data.local.repository.DetailLocalRepositoryImpl;
+import com.example.neslaram.marvel.data.model.Character;
 import com.example.neslaram.marvel.data.model.responses.CharacterResponse;
 import com.example.neslaram.marvel.data.remote.repository.DetailRepository;
 import com.example.neslaram.marvel.data.remote.repository.DetailRepositoryImpl;
@@ -12,15 +15,24 @@ import rx.Observable;
  */
 public class DetailInteractorImpl implements DetailInteractor {
 
-    private DetailRepository detailRepository;
+    private DetailRepository remoteRepository;
+    private DetailLocalRepository localRepository;
 
 
     public DetailInteractorImpl() {
-        this.detailRepository = new DetailRepositoryImpl();
+        this.remoteRepository = new DetailRepositoryImpl();
+        this.localRepository = new DetailLocalRepositoryImpl();
     }
 
     @Override
     public Observable<CharacterResponse> getCharacter(int id) {
-        return detailRepository.getCharacter(id);
+        return remoteRepository.getCharacter(id);
     }
+
+    @Override
+    public Character getLocalCharacter(int id) {
+        return localRepository.getCharacter(id);
+    }
+
+
 }

@@ -8,6 +8,7 @@ import com.example.neslaram.marvel.ui.detail.DetailView;
 
 import java.util.List;
 
+import io.realm.Realm;
 import rx.Observer;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -59,6 +60,13 @@ public class DetailPresenterImpl implements DetailPresenter {
         addSubscription(subscription);
     }
 
+    @Override
+    public void getLocalCharacter(int id) {
+        detailView.showProgressBar();
+        Character result = detailInteractor.getLocalCharacter(id);
+        getLocalCharacterSuccess(result);
+    }
+
     private void addSubscription(Subscription subscription) {
         mSubscriptions.add(subscription);
     }
@@ -68,7 +76,10 @@ public class DetailPresenterImpl implements DetailPresenter {
         if (detailView != null) {
             CharacterResponse.Data data = response.getData();
             List<Character> results = data.getResults();
-            detailView.setItem(results.get(0));
+            Character character = results.get(0);
+            if (character != null)
+                copyToRealmOrUpdate(character);
+            detailView.setItem(character);
             detailView.hideProgressBar();
         }
     }
@@ -76,6 +87,22 @@ public class DetailPresenterImpl implements DetailPresenter {
     private void getCharacterError(String error) {
         if (detailView != null) {
             detailView.showErrorMessage(error);
+            detailView.hideProgressBar();
+        }
+    }
+
+    public void copyToRealmOrUpdate(Character object) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(object);
+        realm.commitTransaction();
+    }
+
+    private void getLocalCharacterSuccess(Character result) {
+        if (detailView != null) {
+            if (result != null)
+                copyToRealmOrUpdate(result);
+            detailView.setItem(result);
             detailView.hideProgressBar();
         }
     }

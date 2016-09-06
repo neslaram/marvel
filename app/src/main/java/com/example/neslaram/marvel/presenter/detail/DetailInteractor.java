@@ -1,5 +1,6 @@
 package com.example.neslaram.marvel.presenter.detail;
 
+import com.example.neslaram.marvel.data.model.Character;
 import com.example.neslaram.marvel.data.model.responses.CharacterResponse;
 
 import rx.Observable;
@@ -9,4 +10,5 @@ import rx.Observable;
  */
 public interface DetailInteractor {
     Observable<CharacterResponse> getCharacter(int id);
+    Character getLocalCharacter(int id);
 }
