@@ -32,7 +32,7 @@ public class MainInteractorImpl implements MainInteractor {
     }
 
     @Override
-    public List<Character> getLocalCharacters(int offset) {
-        return localRepository.getCharacters(offset);
+    public List<Character> getLocalCharacters() {
+        return localRepository.getCharacters();
     }
 }

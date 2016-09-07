@@ -8,5 +8,5 @@ import java.util.List;
  * Created by neslaram on 04/09/16.
  */
 public interface MainLocalRepository {
-    List<Character> getCharacters(int offset);
+    List<Character> getCharacters();
 }
