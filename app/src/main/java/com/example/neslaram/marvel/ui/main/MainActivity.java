@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
         setToolbar();
         setRecyclerView();
         mainPresenter = new MainPresenterImpl(this);
+        mainPresenter.onCreate();
         if (Utils.isConnected(this)) {
             mainPresenter.getCharacters(adapter.getItemCount());
         } else {
@@ -66,12 +67,12 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
         super.onDestroy();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
     @Override
     public void setItems(List<Character> items, int total) {
@@ -124,7 +125,12 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
                         if (pastVisiblesItems + visibleItemCount >= totalItemCount) {
                             if (!isLoading && total != totalItemCount) {
                                 isLoading = true;
-                                mainPresenter.getCharacters(totalItemCount);
+                                if (Utils.isConnected(MainActivity.this)) {
+                                    mainPresenter.getCharacters(totalItemCount);
+                                }
+                                else{
+                                    showErrorMessage(getString(R.string.no_connection));
+                                }
                             }
                         }
                         break;

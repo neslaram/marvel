@@ -24,6 +24,9 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity implements DetailView {
 
+    private static final String STATE_ID = "stateId";
+    private static final String STATE_NAME = "stateName";
+    private static final String STATE_PATH = "statePath";
     @Bind(R.id.imgAvatar)
     ImageView imgAvatar;
     @Bind(R.id.toolbar)
@@ -42,6 +45,9 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
     TextView txtStories;
 
     private DetailPresenter detailPresenter;
+    private int id;
+    private String name;
+    private String imgPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +55,13 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        String name = intent.getStringExtra(Contants.KEY_CHARACTER_NAME);
-        String imgPath = intent.getStringExtra(Contants.KEY_CHARACTER_IMG);
-        int id = intent.getIntExtra(Contants.KEY_CHARACTER_ID, 0);
+        name = intent.getStringExtra(Contants.KEY_CHARACTER_NAME);
+        imgPath = intent.getStringExtra(Contants.KEY_CHARACTER_IMG);
+        id = intent.getIntExtra(Contants.KEY_CHARACTER_ID, 0);
         setToolbar(name, imgPath);
 
         detailPresenter = new DetailPresenterImpl(this);
+        detailPresenter.onCreate();
         if (id > 0) {
             if (Utils.isConnected(this)) {
                 detailPresenter.getCharacter(id);
@@ -81,7 +88,9 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
             txtDescription.setText(item.getDescription());
         }
         Resources resources = getResources();
-        txtComics.setText(resources.getQuantityString(R.plurals.numberOfComicsAvailable, item.getComics().getAvailable(), item.getComics().getAvailable()));
+
+        int comics = item.getComics().getAvailable();
+        txtComics.setText(resources.getQuantityString(R.plurals.numberOfComicsAvailable, comics, comics));
         txtSeries.setText(resources.getQuantityString(R.plurals.numberOfSeriesAvailable, item.getSeries().getAvailable(), item.getSeries().getAvailable()));
         txtEvents.setText(resources.getQuantityString(R.plurals.numberOfEventosAvailable, item.getEvents().getAvailable(), item.getEvents().getAvailable()));
         txtStories.setText(resources.getQuantityString(R.plurals.numberOfHistoriasAvailable, item.getStories().getAvailable(), item.getStories().getAvailable()));
@@ -94,6 +103,10 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
                     .into(imgAvatar);
 
         }
+        if (comics > 4) {
+            Utils.createNotification(item.getId(), item, this);
+        }
+
 
     }
 
@@ -111,6 +124,8 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
     @Override
     public void showErrorMessage(String error) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        detailPresenter.getLocalCharacter(id);
+
     }
 
     private void setToolbar(String title, String imgPath) {
@@ -128,5 +143,27 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
                     .into(imgAvatar);
         }
         setSupportActionBar(toolbar);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putInt(STATE_ID, id);
+        outState.putString(STATE_NAME, name);
+        outState.putString(STATE_PATH, imgPath);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(outState);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        id = savedInstanceState.getInt(STATE_ID);
+        name = savedInstanceState.getString(STATE_NAME);
+        imgPath = savedInstanceState.getString(STATE_PATH);
     }
 }
