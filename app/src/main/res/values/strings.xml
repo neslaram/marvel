@@ -3,6 +3,7 @@
     <string name="title_activity_detail">DetailActivity</string>
     <string name="action_settings">Settings</string>
     <string name="no_description"><i>No se encuentra una descripción disponible</i></string>
+    <string name="number_of_comics">%1$s tiene %2$d comics!</string>
     <plurals name="numberOfComicsAvailable">
         <item quantity="zero">No aparece en ningún comic</item>
         <item quantity="one">Aparece en %d cómic</item>

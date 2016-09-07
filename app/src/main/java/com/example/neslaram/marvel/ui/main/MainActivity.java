@@ -67,12 +67,12 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
         super.onDestroy();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
     @Override
     public void setItems(List<Character> items, int total) {
