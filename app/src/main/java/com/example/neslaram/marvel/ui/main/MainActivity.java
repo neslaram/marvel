@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
         if (Utils.isConnected(this)) {
             mainPresenter.getCharacters(adapter.getItemCount());
         } else {
-            mainPresenter.getLocalCharacters(adapter.getItemCount());
+            mainPresenter.getLocalCharacters();
         }
         isLoading = true;
     }
@@ -95,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
     @Override
     public void showErrorMessage(String error) {
         isLoading = false;
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.no_connection, Toast.LENGTH_SHORT).show();
+        mainPresenter.getLocalCharacters();
 
     }
 

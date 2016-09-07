@@ -67,9 +67,9 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
     @Override
-    public void getLocalCharacters(int offset) {
+    public void getLocalCharacters() {
         mainView.showProgressBar();
-        List<Character> results = mainInteractor.getLocalCharacters(offset);
+        List<Character> results = mainInteractor.getLocalCharacters();
         getLocalCharacterSuccess(results);
     }
 

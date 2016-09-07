@@ -14,7 +14,7 @@ public class MainLocalRepositoryImpl implements MainLocalRepository {
 
 
     @Override
-    public List<Character> getCharacters(int offset) {
+    public List<Character> getCharacters() {
         Realm realm = Realm.getDefaultInstance();
         return realm.where(Character.class)
                 .findAllSorted(Contants.KEY_NAME);

@@ -12,5 +12,5 @@ import rx.Observable;
  */
 public interface MainInteractor {
     Observable<CharacterResponse> getCharacters(int offset);
-    List<Character> getLocalCharacters(int offset);
+    List<Character> getLocalCharacters();
 }
