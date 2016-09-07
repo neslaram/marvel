@@ -125,7 +125,12 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
                         if (pastVisiblesItems + visibleItemCount >= totalItemCount) {
                             if (!isLoading && total != totalItemCount) {
                                 isLoading = true;
-                                mainPresenter.getCharacters(totalItemCount);
+                                if (Utils.isConnected(MainActivity.this)) {
+                                    mainPresenter.getCharacters(totalItemCount);
+                                }
+                                else{
+                                    showErrorMessage(getString(R.string.no_connection));
+                                }
                             }
                         }
                         break;
