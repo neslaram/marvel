@@ -10,5 +10,5 @@ import rx.Observable;
  */
 public interface DetailInteractor {
     Observable<CharacterResponse> getCharacter(int id);
-    Character getLocalCharacter(int id);
+    Observable<Character> getLocalCharacter(int id);
 }

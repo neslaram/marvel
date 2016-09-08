@@ -30,7 +30,7 @@ public class DetailInteractorImpl implements DetailInteractor {
     }
 
     @Override
-    public Character getLocalCharacter(int id) {
+    public Observable<Character> getLocalCharacter(int id) {
         return localRepository.getCharacter(id);
     }
 

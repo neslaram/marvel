@@ -2,9 +2,11 @@ package com.example.neslaram.marvel.data.local.repository;
 
 import com.example.neslaram.marvel.data.model.Character;
 
+import rx.Observable;
+
 /**
  * Created by neslaram on 04/09/16.
  */
 public interface DetailLocalRepository {
-    Character getCharacter(int id);
+    Observable<Character> getCharacter(int id);
 }

@@ -8,8 +8,7 @@ import com.example.neslaram.marvel.data.remote.repository.MainRepository;
 import com.example.neslaram.marvel.data.remote.repository.MainRepositoryImpl;
 import com.example.neslaram.marvel.presenter.main.MainInteractor;
 
-import java.util.List;
-
+import io.realm.RealmResults;
 import rx.Observable;
 
 /**
@@ -32,7 +31,7 @@ public class MainInteractorImpl implements MainInteractor {
     }
 
     @Override
-    public List<Character> getLocalCharacters() {
+    public Observable<RealmResults<Character>> getLocalCharacters() {
         return localRepository.getCharacters();
     }
 }

@@ -9,6 +9,7 @@ import com.example.neslaram.marvel.ui.main.MainView;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import rx.Observer;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -69,8 +70,24 @@ public class MainPresenterImpl implements MainPresenter {
     @Override
     public void getLocalCharacters() {
         mainView.showProgressBar();
-        List<Character> results = mainInteractor.getLocalCharacters();
-        getLocalCharacterSuccess(results);
+        Subscription subscription = mainInteractor.getLocalCharacters().subscribe(new Observer<RealmResults<Character>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(RealmResults<Character> characters) {
+                getLocalCharacterSuccess(characters);
+            }
+        });
+        addSubscription(subscription);
+
     }
 
     private void addSubscription(Subscription subscription) {
@@ -94,6 +111,7 @@ public class MainPresenterImpl implements MainPresenter {
         if (mainView != null) {
             mainView.showErrorMessage(error);
             mainView.hideProgressBar();
+            getLocalCharacters();
         }
     }
 

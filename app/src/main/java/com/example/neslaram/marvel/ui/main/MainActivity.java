@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
     private MainPresenter mainPresenter;
     private GridLayoutManager layoutManager;
     private boolean isLoading;
+    private boolean isConnected;
     private int total;
 
     @Override
@@ -95,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
     public void showErrorMessage(String error) {
         isLoading = false;
         Toast.makeText(this, R.string.no_connection, Toast.LENGTH_SHORT).show();
-        mainPresenter.getLocalCharacters();
 
     }
 

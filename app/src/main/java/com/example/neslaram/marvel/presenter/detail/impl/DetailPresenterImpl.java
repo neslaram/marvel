@@ -1,5 +1,7 @@
 package com.example.neslaram.marvel.presenter.detail.impl;
 
+import android.util.Log;
+
 import com.example.neslaram.marvel.data.model.Character;
 import com.example.neslaram.marvel.data.model.responses.CharacterResponse;
 import com.example.neslaram.marvel.presenter.detail.DetailInteractor;
@@ -9,8 +11,10 @@ import com.example.neslaram.marvel.ui.detail.DetailView;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 import rx.Observer;
 import rx.Subscription;
+import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -70,8 +74,30 @@ public class DetailPresenterImpl implements DetailPresenter {
     @Override
     public void getLocalCharacter(int id) {
         detailView.showProgressBar();
-        Character result = detailInteractor.getLocalCharacter(id);
-        getLocalCharacterSuccess(result);
+        Subscription subscription = detailInteractor.getLocalCharacter(id)
+                .filter(new Func1<RealmObject, Boolean>() {
+                    @Override
+                    public Boolean call(RealmObject realmObject) {
+                        return realmObject.isValid() && realmObject.isLoaded();
+                    }
+                }).subscribe(new Observer<Character>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+
+                    }
+
+                    @Override
+                    public void onNext(Character character) {
+                        getLocalCharacterSuccess(character);
+                    }
+                });
+        addSubscription(subscription);
     }
 
     private void addSubscription(Subscription subscription) {

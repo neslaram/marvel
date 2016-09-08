@@ -43,6 +43,7 @@ public class Utils {
                         .setContentTitle(characterName)
                         .setContentText(body)
                         .setContentIntent(pIntent)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                         .setAutoCancel(true);
 
         NotificationManager mNotificationManager =
