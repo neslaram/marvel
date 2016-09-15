@@ -17,7 +17,7 @@ import com.example.neslaram.marvel.presenter.main.impl.MainPresenterImpl;
 import com.example.neslaram.marvel.ui.detail.DetailActivity;
 import com.example.neslaram.marvel.ui.main.adapters.CharacterAdapter;
 import com.example.neslaram.marvel.ui.main.adapters.OnItemClickListener;
-import com.example.neslaram.marvel.utils.Contants;
+import com.example.neslaram.marvel.utils.Constants;
 import com.example.neslaram.marvel.utils.Utils;
 
 import java.util.ArrayList;
@@ -102,9 +102,9 @@ public class MainActivity extends AppCompatActivity implements MainView, OnItemC
     @Override
     public void onItemClicked(int position, Character item) {
         Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(Contants.KEY_CHARACTER_ID, item.getId());
-        intent.putExtra(Contants.KEY_CHARACTER_NAME, item.getName());
-        intent.putExtra(Contants.KEY_CHARACTER_IMG, item.getThumbnail());
+        intent.putExtra(Constants.KEY_CHARACTER_ID, item.getId());
+        intent.putExtra(Constants.KEY_CHARACTER_NAME, item.getName());
+        intent.putExtra(Constants.KEY_CHARACTER_IMG, item.getThumbnail());
         startActivity(intent);
     }
 

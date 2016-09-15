@@ -1,15 +1,17 @@
 package com.example.neslaram.marvel.utils;
 
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.example.neslaram.marvel.R;
-import com.example.neslaram.marvel.data.model.Character;
 import com.example.neslaram.marvel.ui.detail.DetailActivity;
 
 /**
@@ -23,32 +25,29 @@ public class Utils {
 
     }
 
-    public static void createNotification(int nId, Character item, Context context) {
 
-        String characterName = item.getName();
-        String body = String.format(context.getResources().getString(R.string.number_of_comics), characterName, item.getComics().getAvailable());
+    public static void createNotification(int nId, String title, String body, Bundle bundle, Context context, Bitmap largeIcon) {
 
         Intent intent = new Intent(context, DetailActivity.class);
-        intent.putExtra(Contants.KEY_CHARACTER_ID, nId);
-        intent.putExtra(Contants.KEY_CHARACTER_NAME, characterName);
-        intent.putExtra(Contants.KEY_CHARACTER_IMG, item.getThumbnail());
-
+        if (!bundle.isEmpty()) {
+            intent.putExtras(bundle);
+        }
 
         int flags = PendingIntent.FLAG_UPDATE_CURRENT;
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, flags);
 
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(characterName)
+                        .setSmallIcon(R.drawable.ic_stat_name)
+                        .setLargeIcon(largeIcon)
+                        .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                        .setContentTitle(title)
                         .setContentText(body)
                         .setContentIntent(pIntent)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                         .setAutoCancel(true);
 
-        NotificationManager mNotificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        // mId allows you to update the notification later on.
-        mNotificationManager.notify(nId, mBuilder.build());
+        NotificationManagerCompat.from(context).notify(nId, mBuilder.build());
     }
 }

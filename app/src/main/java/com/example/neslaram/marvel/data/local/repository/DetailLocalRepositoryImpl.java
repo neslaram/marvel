@@ -1,7 +1,7 @@
 package com.example.neslaram.marvel.data.local.repository;
 
 import com.example.neslaram.marvel.data.model.Character;
-import com.example.neslaram.marvel.utils.Contants;
+import com.example.neslaram.marvel.utils.Constants;
 
 import io.realm.Realm;
 import rx.Observable;
@@ -16,7 +16,7 @@ public class DetailLocalRepositoryImpl implements DetailLocalRepository {
     public Observable<Character> getCharacter(int id) {
         Realm realm = Realm.getDefaultInstance();
         return realm.where(Character.class)
-                .equalTo(Contants.KEY_ID, id)
+                .equalTo(Constants.KEY_ID, id)
                 .findFirstAsync().asObservable();
 
     }

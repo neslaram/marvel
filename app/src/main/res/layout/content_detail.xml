@@ -23,7 +23,7 @@
             android:indeterminate="true"
             android:visibility="gone"/>
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/txtDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             android:textAppearance="@android:style/TextAppearance.Medium"
             />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/txtComics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,21 +39,21 @@
             android:textAppearance="@android:style/TextAppearance.Small"
             />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/txtEvents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:textAppearance="@android:style/TextAppearance.Small"/>
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/txtSeries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:textAppearance="@android:style/TextAppearance.Small"/>
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/txtStories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

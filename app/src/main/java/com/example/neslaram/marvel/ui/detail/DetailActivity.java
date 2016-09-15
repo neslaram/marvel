@@ -2,9 +2,13 @@ package com.example.neslaram.marvel.ui.detail;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -16,7 +20,7 @@ import com.example.neslaram.marvel.R;
 import com.example.neslaram.marvel.data.model.Character;
 import com.example.neslaram.marvel.presenter.detail.DetailPresenter;
 import com.example.neslaram.marvel.presenter.detail.impl.DetailPresenterImpl;
-import com.example.neslaram.marvel.utils.Contants;
+import com.example.neslaram.marvel.utils.Constants;
 import com.example.neslaram.marvel.utils.Utils;
 
 import butterknife.Bind;
@@ -55,9 +59,9 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        name = intent.getStringExtra(Contants.KEY_CHARACTER_NAME);
-        imgPath = intent.getStringExtra(Contants.KEY_CHARACTER_IMG);
-        id = intent.getIntExtra(Contants.KEY_CHARACTER_ID, 0);
+        name = intent.getStringExtra(Constants.KEY_CHARACTER_NAME);
+        imgPath = intent.getStringExtra(Constants.KEY_CHARACTER_IMG);
+        id = intent.getIntExtra(Constants.KEY_CHARACTER_ID, 0);
         setToolbar(name, imgPath);
 
         detailPresenter = new DetailPresenterImpl(this);
@@ -79,8 +83,17 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void setItem(Character item) {
         toolbar.setTitle(item.getName());
+
         if (item.getDescription().isEmpty()) {
 
             txtDescription.setText(R.string.no_description);
@@ -104,7 +117,18 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
 
         }
         if (comics > 4) {
-            Utils.createNotification(item.getId(), item, this);
+
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.KEY_CHARACTER_ID, item.getId());
+            bundle.putString(Constants.KEY_CHARACTER_NAME, item.getName());
+            bundle.putString(Constants.KEY_CHARACTER_IMG, item.getThumbnail());
+
+            String characterName = item.getName();
+
+            String body = String.format(resources.getString(R.string.number_of_comics), characterName, item.getComics().getAvailable());
+
+            Bitmap largeIcon = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher);
+            Utils.createNotification(item.getId(), characterName, body, bundle, this, largeIcon);
         }
 
 
@@ -140,9 +164,15 @@ public class DetailActivity extends AppCompatActivity implements DetailView {
                     .load(imgPath)
                     .crossFade()
                     .centerCrop()
+
                     .into(imgAvatar);
         }
         setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 
